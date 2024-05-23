@@ -1,11 +1,15 @@
-
 class PastebinPage {
     constructor() {
+        this.url = 'https://pastebin.com/';
         this.acceptCookiesButton = $('//*[@id="qc-cmp2-ui"]/div[2]/div/button[2]');
         this.codeTextarea = $('//*[@id="postform-text"]');
-        this.expirationDropdown = $('/html/body/div[1]/div[2]/div[1]/div[2]/div/form/div[5]/div[1]/div[4]/div/span');
-        this.tenMinutesOption = $('#select2-postform-expiration-result-3pcd-10M');
+        this.expirationDropdown = $('//*[@id="select2-postform-expiration-container"]');
+        this.tenMinutesOption = $('//li[contains(text(), "10 Minutes")]');
         this.nameInput = $('//*[@id="postform-name"]');
+    }
+
+    async open() {
+        await browser.url(this.url);
     }
 
     async acceptCookies() {
@@ -21,7 +25,6 @@ class PastebinPage {
     async setExpiration() {
         await this.expirationDropdown.waitForDisplayed({ timeout: 10000 });
         await this.expirationDropdown.click();
-        await browser.pause(1000); // Adding a short pause to ensure the dropdown options are loaded
         await this.tenMinutesOption.waitForDisplayed({ timeout: 5000 });
         await this.tenMinutesOption.click();
     }
@@ -32,4 +35,4 @@ class PastebinPage {
     }
 }
 
-export default new PastebinPage();
+export default PastebinPage;
